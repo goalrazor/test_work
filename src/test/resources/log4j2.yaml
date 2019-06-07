@@ -1,0 +1,27 @@
+Configutation:
+  name: Default
+
+  Properties:
+    Property:
+      name: log-path
+      value: "logs"
+
+  Appenders:
+    Console:
+      name: StdoutAppender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%d{HH:mm:ss XXX} %-5p %c.java:%L - %m%n"
+
+    File:
+      name: FileAppender
+      fileName: ${log-path}/logfile.log
+      PatternLayout:
+        pattern: "%d{HH:mm:ss} %-5p %c{1.}.java:%L - %m%n"
+
+  Loggers:
+    Root:
+      level: debug
+      AppenderRef:
+        - ref: "StdoutAppender"
+        - ref: "FileAppender"
