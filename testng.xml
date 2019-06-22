@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="BDD Test Suite" verbose="1" parallel="true" thread-count="2" configfailurepolicy="continue">
+<suite name="BDD Test Suite" verbose="1" parallel="classes" thread-count="2">
     <test name="Login and Update Profile Test firefox" annotations="JDK">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="TestRunner"/>
+            <class name="Runner.Runner"/>
         </classes>
     </test>
     <test name="Login and Update Profile Test chrome" annotations="JDK">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="TestRunner"/>
+            <class name="Runner.Runner"/>
         </classes>
     </test>
 </suite>

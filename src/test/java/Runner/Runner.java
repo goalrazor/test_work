@@ -1,15 +1,16 @@
+package Runner;
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.CucumberFeatureWrapper;
 import cucumber.api.testng.TestNGCucumberRunner;
 import org.testng.annotations.*;
 import stepdefs.WDriver;
 
-import java.util.Properties;
-
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"stepdefs"})
-public class TestRunner {
+public class Runner {
+    public static WDriver driver;
     private TestNGCucumberRunner testNGCucumberRunner;
 
 
@@ -18,10 +19,10 @@ public class TestRunner {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
     }
 
-    @BeforeClass(alwaysRun = true)
-    public void changeBrowser() {
-        WDriver.property.replace("browser", "firefox");
-        System.out.println(WDriver.getProperty("browser"));
+    @BeforeClass
+    @Parameters("browser")
+    public static void setBrowser(String browser) {
+        WDriver.browser = browser;
     }
 
     @Test(groups = "cucumber", description = "Runs Cucumber Feature", dataProvider = "features")

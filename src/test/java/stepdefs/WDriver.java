@@ -9,8 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.internal.collections.Pair;
 
 import java.io.FileInputStream;
@@ -37,13 +35,14 @@ public class WDriver {
      * объект для работы с ожиданиями
      */
     private WebDriverWait wait;
-private String browser = property.getProperty("browser");
-private WDriver() {
+    public static String browser;// = getProperty("browser");
+
+    public WDriver() {
         //установка пути до исполняемого файла WebDriver
         /*
           Конструктор класса-обертки. Модификатор конструктора private
           не позволяет вызывать конструктор нашего класса. Единственный способ получения
-          экземпляра класса-обертки - метод getInstance().
+          экземпляра класса-обертки - метод WDriver().
          */
 
         if (browser.equals("chrome")) {

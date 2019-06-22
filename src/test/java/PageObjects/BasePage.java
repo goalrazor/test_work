@@ -2,19 +2,20 @@ package PageObjects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.Parameters;
+
+import Runner.Runner;
 import stepdefs.WDriver;
+
 
 public abstract class BasePage {
     static final Logger log = LogManager.getLogger();
+   WDriver driver = WDriver.getInstance();
 
-     WDriver driver = WDriver.getInstance();
-
-    public void open(String url){
+    public void open(String url) {
         driver.get(url);
     }
 
-    public void close(){
+    public void close() {
         driver.close();
     }
 }
