@@ -39,7 +39,7 @@ public class MailBoxPage extends BasePage {
     }
 
     public void draftsChecking() {
-        String draftsButtonXpath = "//a[@title=\"Черновики\"]";
+        String draftsButtonXpath = "//div[@data-tooltip=\"Черновики\"]";
         driver.click(draftsButtonXpath);
         driver.findElement(String.format(draftExistsXpath, WDriver.getProperty("body")));
         log.info("Черновик сохранился в раздел черновики");

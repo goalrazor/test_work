@@ -6,8 +6,11 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.internal.collections.Pair;
 
 import java.io.FileInputStream;
@@ -17,11 +20,12 @@ import java.util.Properties;
 public class WDriver {
 
     private static final Logger log = LogManager.getLogger();
-    private static Properties property = new Properties();
+    public static Properties property = new Properties();
     /**
      * статическое поле, которое хранит экземпляр Selenium Driver для браузера Chrome
      */
     private ChromeDriver chromeDriver;
+    private FirefoxDriver firefoxDriver;
 
     /**
      * статическое поле, которое хранит единственный экземпляр нашего класса-обертки,
@@ -33,23 +37,35 @@ public class WDriver {
      * объект для работы с ожиданиями
      */
     private WebDriverWait wait;
+private String browser = property.getProperty("browser");
+private WDriver() {
+        //установка пути до исполняемого файла WebDriver
+        /*
+          Конструктор класса-обертки. Модификатор конструктора private
+          не позволяет вызывать конструктор нашего класса. Единственный способ получения
+          экземпляра класса-обертки - метод getInstance().
+         */
 
-    /**
-     * Конструктор класса-обертки. Модификатор конструктора private
-     * не позволяет вызывать конструктор нашего класса. Единственный способ получения
-     * экземпляра класса-обертки - метод getInstance().
-     */
-    WDriver() {
-        //установка пути до исполняемого файла WebDriver (chromedriver.exe)
-        System.setProperty("webdriver.chrome.driver",
-                "src/test/resources/WebDrivers/chromedriver");
-        //создание нового объекта ChromeDriver
-        chromeDriver = new ChromeDriver();
-        //разворачиваем окно браузера Chrome на полный экран
-        chromeDriver.manage().window().maximize();
-        //инициализируем объект ожидания для условного поиска элементов.
-        //параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
-        wait = new WebDriverWait(chromeDriver, 10, 250);
+        if (browser.equals("chrome")) {
+            System.setProperty("webdriver.chrome.driver",
+                    "src/test/resources/WebDrivers/chromedriver.exe");
+            //создание нового объекта ChromeDriver
+            chromeDriver = new ChromeDriver();
+            //разворачиваем окно браузера Chrome на полный экран
+            chromeDriver.manage().window().maximize();
+//            инициализируем объект ожидания для условного поиска элементов.
+//            параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
+            wait = new WebDriverWait(chromeDriver, 10, 250);
+
+        } else if (browser.equals("firefox")) {
+            System.setProperty("webdriver.gecko.driver",
+                    "src/test/resources/WebDrivers/geckodriver.exe");
+            firefoxDriver = new FirefoxDriver();
+            firefoxDriver.manage().window().maximize();
+            wait = new WebDriverWait(firefoxDriver, 10, 250);
+        }
+
+
     }
 
     /**
@@ -107,7 +123,7 @@ public class WDriver {
     /**
      * Метод для ввода данных на элемент (пример - ввод данных в текстовое поле)
      *
-     * @param xpath xpath
+     * @param xpath     xpath
      * @param textValue текст для ввода
      */
     public void sendKeys(String xpath, String textValue) {
@@ -121,16 +137,26 @@ public class WDriver {
      *
      * @param url адресс
      */
+
     public void get(String url) {
-        chromeDriver.get(url);
+        if (browser.equals("chrome")) {
+            chromeDriver.get(url);
+        } else if (browser.equals("firefox")) {
+            firefoxDriver.get(url);
+        }
         log.debug("Открываем страницу '{}'.", url);
     }
 
     /**
      * Метод для закрытия текущей вкладки
      */
+
     public void close() {
-        chromeDriver.close();
+        if (browser.equals("chrome")) {
+            chromeDriver.close();
+        } else if (browser.equals("firefox")) {
+            firefoxDriver.close();
+        }
         log.debug("Закрыл вкладку.");
     }
 
@@ -162,7 +188,13 @@ public class WDriver {
     }
 
     public String getUrl() {
-        String currentUrl = chromeDriver.getCurrentUrl();
+        String currentUrl = null;
+        if (browser.equals("chrome")) {
+            currentUrl = chromeDriver.getCurrentUrl();
+        } else if (browser.equals("firefox")) {
+            currentUrl = firefoxDriver.getCurrentUrl();
+        }
+
         log.debug("Мы находимся на странице с URL '{}'", currentUrl);
         return currentUrl;
     }
