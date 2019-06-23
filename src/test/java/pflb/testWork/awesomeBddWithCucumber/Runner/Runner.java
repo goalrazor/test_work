@@ -1,4 +1,4 @@
-package Runner;
+package pflb.testWork.awesomeBddWithCucumber.Runner;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.CucumberFeatureWrapper;
@@ -16,11 +16,11 @@ import org.testng.annotations.*;
 
 @CucumberOptions(
         features = "src/test/resources/features",
-        glue = {"stepdefs"})
+        glue = {"pflb.testWork.awesomeBddWithCucumber.stepdefs"})
 public class Runner {
 
     private TestNGCucumberRunner testNGCucumberRunner;
-    private static WebDriverWait wait;
+    private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
 
 
     @BeforeTest(alwaysRun = true)
@@ -44,15 +44,19 @@ public class Runner {
             chromeDriver.manage().window().maximize();
 //            инициализируем объект ожидания для условного поиска элементов.
 //            параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
-            wait = new WebDriverWait(chromeDriver, 10, 250);
             driver.set(chromeDriver);
+            WebDriverWait chromeDriverWait = new WebDriverWait(driver.get(), 10, 250);
+            wait.set(chromeDriverWait);
+
         } else if (browser.equals("firefox")) {
             System.setProperty("webdriver.gecko.driver",
                     "src/test/resources/WebDrivers/geckodriver.exe");
             FirefoxDriver firefoxDriver = new FirefoxDriver();
             firefoxDriver.manage().window().maximize();
-            wait = new WebDriverWait(firefoxDriver, 10, 250);
             driver.set(firefoxDriver);
+            WebDriverWait firefoxDriverWait = new WebDriverWait(driver.get(), 10, 250);
+            wait.set(firefoxDriverWait);
+
         }
     }
 
@@ -72,11 +76,11 @@ public class Runner {
         WebElement e;
         try {
             //проверяем, присутствует ли элемент в HTML документе
-            e = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+            e = wait.get().until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
             //проверяем, виден ли элемент на экране
-            e = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            e = wait.get().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
             //проверяем, является ли элемент кликабельным
-            e = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+            e = wait.get().until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         } catch (Exception exception) {
             log.error("Не смог найти элемент с локатором '{}'.", xpath);
             throw new RuntimeException();

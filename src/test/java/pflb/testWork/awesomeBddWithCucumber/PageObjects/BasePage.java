@@ -1,8 +1,8 @@
-package PageObjects;
+package pflb.testWork.awesomeBddWithCucumber.PageObjects;
 
-import Runner.Runner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pflb.testWork.awesomeBddWithCucumber.Runner.Runner;
 
 
 public abstract class BasePage {

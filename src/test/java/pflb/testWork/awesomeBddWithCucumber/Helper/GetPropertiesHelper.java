@@ -1,4 +1,4 @@
-package stepdefs;
+package pflb.testWork.awesomeBddWithCucumber.Helper;
 
 
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +18,7 @@ public class GetPropertiesHelper {
      *
      * @return Пара - имя/пароль пользователя
      */
-    static Pair getAccountPair() {
+   public static Pair getAccountPair() {
         try {
             FileInputStream fis = new FileInputStream("src/test/resources/gmail.properties");
             property.load(fis);

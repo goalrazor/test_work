@@ -1,7 +1,7 @@
-package PageObjects;
+package pflb.testWork.awesomeBddWithCucumber.PageObjects;
 
-import Runner.Runner;
-import stepdefs.GetPropertiesHelper;
+import pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper;
+import pflb.testWork.awesomeBddWithCucumber.Runner.Runner;
 
 public class MailBoxPage extends BasePage {
 

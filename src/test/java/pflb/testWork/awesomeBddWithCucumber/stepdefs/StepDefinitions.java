@@ -1,13 +1,14 @@
-package stepdefs;
+package pflb.testWork.awesomeBddWithCucumber.stepdefs;
 
 
-import PageObjects.LoginPage;
-import PageObjects.MailBoxPage;
 import cucumber.api.java.ru.*;
 import org.testng.annotations.Listeners;
+import pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper;
+import pflb.testWork.awesomeBddWithCucumber.PageObjects.LoginPage;
+import pflb.testWork.awesomeBddWithCucumber.PageObjects.MailBoxPage;
 import utils.Listener;
 
-import static stepdefs.GetPropertiesHelper.getAccountPair;
+import static pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper.getAccountPair;
 
 
 @Listeners(Listener.class)

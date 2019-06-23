@@ -1,6 +1,6 @@
-package PageObjects;
+package pflb.testWork.awesomeBddWithCucumber.PageObjects;
 
-import Runner.Runner;
+import pflb.testWork.awesomeBddWithCucumber.Runner.Runner;
 
 public class LoginPage extends BasePage {
     private String passwordFieldXpath = "//input[@type=\"password\"]";

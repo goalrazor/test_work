@@ -4,13 +4,13 @@
     <test name="Login and Update Profile Test firefox" annotations="JDK">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="Runner.Runner"/>
+            <class name="pflb.testWork.awesomeBddWithCucumber.Runner.Runner"/>
         </classes>
     </test>
     <test name="Login and Update Profile Test chrome" annotations="JDK">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="Runner.Runner"/>
+            <class name="pflb.testWork.awesomeBddWithCucumber.Runner.Runner"/>
         </classes>
     </test>
 </suite>
