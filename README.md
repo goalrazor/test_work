@@ -1,4 +1,4 @@
-# test_work
+# BDD testNG Cucumber 
 awesome bdd testNG with Cucumber
 
 This project is showing how to make project with TestNG and Cucumber.
