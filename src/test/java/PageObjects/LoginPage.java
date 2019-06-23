@@ -1,5 +1,7 @@
 package PageObjects;
 
+import Runner.Runner;
+
 public class LoginPage extends BasePage {
     private String passwordFieldXpath = "//input[@type=\"password\"]";
 
@@ -11,15 +13,15 @@ public class LoginPage extends BasePage {
 
     public void login(String login, String password) {
         String loginFieldXpath = "//input[@type=\"email\"]";
-        driver.sendKeys(loginFieldXpath, login + "\n");
+        Runner.sendKeys(loginFieldXpath, login + "\n");
         log.info("Логин '{}' удачно введен", login);
 
-        driver.sendKeys(passwordFieldXpath, password + "\n");
+        Runner.sendKeys(passwordFieldXpath, password + "\n");
         log.info("Пароль '{}' удачно введен", password);
     }
 
     public void logOutChecking(){
-        driver.findElement(passwordFieldXpath);
+        Runner.findElement(passwordFieldXpath);
         log.info("Выход из аккаунта совершен");
     }
 }

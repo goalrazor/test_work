@@ -1,21 +1,18 @@
 package PageObjects;
 
+import Runner.Runner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import Runner.Runner;
-import stepdefs.WDriver;
 
 
 public abstract class BasePage {
     static final Logger log = LogManager.getLogger();
-   WDriver driver = WDriver.getInstance();
 
     public void open(String url) {
-        driver.get(url);
+        Runner.get(url);
     }
 
     public void close() {
-        driver.close();
+       Runner.close();
     }
 }
