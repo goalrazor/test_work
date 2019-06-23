@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class WDriver {
+public class GetPropertiesHelper {
     private static Properties property = new Properties();
     private static final Logger log = LogManager.getLogger();
 

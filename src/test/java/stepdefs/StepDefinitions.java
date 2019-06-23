@@ -7,7 +7,7 @@ import cucumber.api.java.ru.*;
 import org.testng.annotations.Listeners;
 import utils.Listener;
 
-import static stepdefs.WDriver.getAccountPair;
+import static stepdefs.GetPropertiesHelper.getAccountPair;
 
 
 @Listeners(Listener.class)
@@ -51,9 +51,9 @@ public class StepDefinitions {
 
     @Если("^пользователь вводит в поле кому адрес 'адресс' в поле тема 'тема', а в тело письма 'текст тела'$")
     public void fillNewMessageFields() {
-        String address = WDriver.getProperty("address");
-        String theme = WDriver.getProperty("theme");
-        String body = WDriver.getProperty("body");
+        String address = GetPropertiesHelper.getProperty("address");
+        String theme = GetPropertiesHelper.getProperty("theme");
+        String body = GetPropertiesHelper.getProperty("body");
         mailBoxPage.fillNewMessageFields(address, theme, body);
     }
 

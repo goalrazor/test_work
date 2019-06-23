@@ -23,13 +23,15 @@ public class Runner {
     private static WebDriverWait wait;
 
 
-    @BeforeClass(alwaysRun = true)
-    public void setUpClass(){
+    @BeforeTest(alwaysRun = true)
+    public void setUpClass() {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
     }
 
-    public static WebDriver driver;
-    @BeforeClass
+    public static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+
+    @BeforeTest
     @Parameters("browser")
     public void setBrowser(String browser) {
         if (browser.equals("chrome")) {
@@ -37,19 +39,20 @@ public class Runner {
                     "src/test/resources/WebDrivers/chromedriver.exe");
             //создание нового объекта ChromeDriver
             ChromeDriver chromeDriver = new ChromeDriver();
+
             //разворачиваем окно браузера Chrome на полный экран
             chromeDriver.manage().window().maximize();
 //            инициализируем объект ожидания для условного поиска элементов.
 //            параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
             wait = new WebDriverWait(chromeDriver, 10, 250);
-            driver = chromeDriver;
+            driver.set(chromeDriver);
         } else if (browser.equals("firefox")) {
             System.setProperty("webdriver.gecko.driver",
                     "src/test/resources/WebDrivers/geckodriver.exe");
             FirefoxDriver firefoxDriver = new FirefoxDriver();
             firefoxDriver.manage().window().maximize();
             wait = new WebDriverWait(firefoxDriver, 10, 250);
-            driver = firefoxDriver;
+            driver.set(firefoxDriver);
         }
     }
 
@@ -113,7 +116,7 @@ public class Runner {
      */
 
     public static void get(String url) {
-        driver.get(url);
+        driver.get().get(url);
         log.debug("Открываем страницу '{}'.", url);
     }
 
@@ -122,12 +125,12 @@ public class Runner {
      */
 
     public static void close() {
-       driver.close();
+        driver.get().close();
         log.debug("Закрыл вкладку.");
     }
 
     public static String getUrl() {
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = driver.get().getCurrentUrl();
         log.debug("Мы находимся на странице с URL '{}'", currentUrl);
         return currentUrl;
     }
@@ -143,8 +146,8 @@ public class Runner {
         return testNGCucumberRunner.provideFeatures();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDownClass(){
+    @AfterTest(alwaysRun = true)
+    public void tearDownClass() {
         testNGCucumberRunner.finish();
     }
 }

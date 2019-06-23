@@ -1,7 +1,7 @@
 package PageObjects;
 
 import Runner.Runner;
-import stepdefs.WDriver;
+import stepdefs.GetPropertiesHelper;
 
 public class MailBoxPage extends BasePage {
 
@@ -42,24 +42,24 @@ public class MailBoxPage extends BasePage {
     public void draftsChecking() {
         String draftsButtonXpath = "//div[@data-tooltip=\"Черновики\"]";
         Runner.click(draftsButtonXpath);
-        Runner.findElement(String.format(draftExistsXpath, WDriver.getProperty("body")));
+        Runner.findElement(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Черновик сохранился в раздел черновики");
     }
 
     public void draftOpen() {
-        Runner.click(String.format(draftExistsXpath, WDriver.getProperty("body")));
+        Runner.click(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Удачный клик по черновику");
     }
 
     public void draftMessageRequisitesChecking(){
         String filledAddressXpath = "//span[@email='%s'][text()='%s']";
-        Runner.findElement(String.format(filledAddressXpath, WDriver.getProperty("address"), WDriver.getProperty("address")));
+        Runner.findElement(String.format(filledAddressXpath, GetPropertiesHelper.getProperty("address"), GetPropertiesHelper.getProperty("address")));
         log.info("В поле 'Кому' присутствуют нужные данные");
         String filledThemeXpath = "//div[@aria-label=\"%s\"]";
-        Runner.findElement(String.format(filledThemeXpath, WDriver.getProperty("theme")));
+        Runner.findElement(String.format(filledThemeXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В поле 'Тема' присутствуют нужные данные");
         String filledBodyXpath = "//div[text()=\"%s\"]";
-        Runner.findElement(String.format(filledBodyXpath, WDriver.getProperty("body")));
+        Runner.findElement(String.format(filledBodyXpath, GetPropertiesHelper.getProperty("body")));
         log.info("В поле 'Тело письма' присутствуют нужные данные");
     }
 
@@ -78,7 +78,7 @@ public class MailBoxPage extends BasePage {
     public void sentMessageChecking(){
         String sentMessagesButtonXpath = "//div[@data-tooltip=\"Отправленные\"]";
         Runner.click(sentMessagesButtonXpath);
-        Runner.findElement(String.format("//span"+draftExistsXpath, WDriver.getProperty("theme")));
+        Runner.findElement(String.format("//span"+draftExistsXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В разделе отправленные присутствует отправленное нами письмо");
     }
 
