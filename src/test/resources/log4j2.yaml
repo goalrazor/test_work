@@ -11,13 +11,13 @@ Configutation:
       name: StdoutAppender
       target: SYSTEM_OUT
       PatternLayout:
-        pattern: "%d{HH:mm:ss XXX} %-5p %c.java:%L - %m%n"
+        pattern: "%highlight{%d [%t] %-5level: %msg%n%throwable}"
 
     File:
       name: FileAppender
       fileName: ${log-path}/logfile.log
       PatternLayout:
-        pattern: "%d{HH:mm:ss} %-5p %c{1.}.java:%L - %m%n"
+        pattern: "[%t]: %d{HH:mm:ss} %-5p %c{1.}.java:%L - %m%n"
 
   Loggers:
     Root:

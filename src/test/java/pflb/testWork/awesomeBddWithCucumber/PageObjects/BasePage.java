@@ -7,12 +7,13 @@ import pflb.testWork.awesomeBddWithCucumber.Runner.WDriver;
 
 public abstract class BasePage {
     static final Logger log = LogManager.getLogger();
+    WDriver driver = WDriver.getInstance();
 
-    public void open(String url) {
-        WDriver.get(url);
+    void open(String url) {
+        driver.get(url);
     }
 
     public void close() {
-       WDriver.close();
+        driver.close();
     }
 }

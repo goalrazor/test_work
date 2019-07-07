@@ -11,34 +11,44 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WDriver {
-    public static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-    private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
+
+    private static WDriver driver;
+
+    private static WebDriver webDriver;
+    private static WebDriverWait wait;
+    private static String browser;
 
     WDriver(String browser) {
+        this.browser = browser;
         if (browser.equals("chrome")) {
             System.setProperty("webdriver.chrome.driver",
                     "src/test/resources/WebDrivers/chromedriver.exe");
             //создание нового объекта ChromeDriver
-            ChromeDriver chromeDriver = new ChromeDriver();
-
-            //разворачиваем окно браузера Chrome на полный экран
-            chromeDriver.manage().window().maximize();
-//            инициализируем объект ожидания для условного поиска элементов.
-//            параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
-            driver.set(chromeDriver);
-            WebDriverWait chromeDriverWait = new WebDriverWait(driver.get(), 10, 250);
-            wait.set(chromeDriverWait);
-
+            webDriver = new ChromeDriver();
         } else if (browser.equals("firefox")) {
             System.setProperty("webdriver.gecko.driver",
                     "src/test/resources/WebDrivers/geckodriver.exe");
-            FirefoxDriver firefoxDriver = new FirefoxDriver();
-            firefoxDriver.manage().window().maximize();
-            driver.set(firefoxDriver);
-            WebDriverWait firefoxDriverWait = new WebDriverWait(driver.get(), 10, 250);
-            wait.set(firefoxDriverWait);
-
+            webDriver = new FirefoxDriver();
         }
+
+        //разворачиваем окно браузера на полный экран
+        webDriver.manage().window().maximize();
+//            инициализируем объект ожидания для условного поиска элементов.
+//            параметры конструктора: экземпляр веб драйвера, полное время (таймаут), частота проверки
+        wait = new WebDriverWait(webDriver, 10, 250);
+    }
+
+    /**
+     * Метод для получения экземпляра класса обертки.
+     * См. паттерн Синглтон.
+     *
+     * @return
+     */
+    public static WDriver getInstance() {
+        if (driver == null) {
+            driver = new WDriver(browser);
+        }
+        return driver;
     }
 
     private static final Logger log = LogManager.getLogger();
@@ -53,15 +63,15 @@ public class WDriver {
      * @param xpath xpath
      * @return элемент
      */
-    public static WebElement findElement(String xpath) {
+    public WebElement findElement(String xpath) {
         WebElement e;
         try {
             //проверяем, присутствует ли элемент в HTML документе
-            e = wait.get().until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+            e = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
             //проверяем, виден ли элемент на экране
-            e = wait.get().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            e = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
             //проверяем, является ли элемент кликабельным
-            e = wait.get().until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+            e = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         } catch (Exception exception) {
             log.error("Не смог найти элемент с локатором '{}'.", xpath);
             throw new RuntimeException();
@@ -76,7 +86,7 @@ public class WDriver {
      *
      * @param xpath xpath
      */
-    public static void click(String xpath) {
+    public void click(String xpath) {
         WebElement e = findElement(xpath);
         e.click();
         log.debug("Кликнул элемент.");
@@ -88,7 +98,7 @@ public class WDriver {
      * @param xpath     xpath
      * @param textValue текст для ввода
      */
-    public static void sendKeys(String xpath, String textValue) {
+    public void sendKeys(String xpath, String textValue) {
         WebElement e = findElement(xpath);
         e.sendKeys(textValue);
         log.debug("Ввел значение '{}' в поле '{}'.", textValue, xpath);
@@ -100,8 +110,8 @@ public class WDriver {
      * @param url адресс
      */
 
-    public static void get(String url) {
-        driver.get().get(url);
+    public void get(String url) {
+        webDriver.get(url);
         log.debug("Открываем страницу '{}'.", url);
     }
 
@@ -109,14 +119,9 @@ public class WDriver {
      * Метод для закрытия текущей вкладки
      */
 
-    public static void close() {
-        driver.get().close();
+    public void close() {
+        webDriver.close();
         log.debug("Закрыл вкладку.");
     }
 
-    public static String getUrl() {
-        String currentUrl = driver.get().getCurrentUrl();
-        log.debug("Мы находимся на странице с URL '{}'", currentUrl);
-        return currentUrl;
-    }
 }

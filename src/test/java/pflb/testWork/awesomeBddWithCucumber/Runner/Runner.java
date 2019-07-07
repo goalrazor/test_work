@@ -8,7 +8,7 @@ import org.testng.annotations.*;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"pflb.testWork.awesomeBddWithCucumber.stepdefs"})
-public class Runner{
+public class Runner {
 
     private TestNGCucumberRunner testNGCucumberRunner;
 
@@ -20,7 +20,8 @@ public class Runner{
     @BeforeTest
     @Parameters("browser")
     public void setBrowser(String browser) {
-       WDriver driver = new WDriver(browser);
+        ThreadLocal<WDriver> driver = new ThreadLocal<>();
+        driver.set(new WDriver(browser));
     }
 
 
