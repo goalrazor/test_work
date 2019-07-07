@@ -16,10 +16,9 @@ public class WDriver {
 
     private static WebDriver webDriver;
     private static WebDriverWait wait;
-    private static String browser;
+
 
     WDriver(String browser) {
-        this.browser = browser;
         if (browser.equals("chrome")) {
             System.setProperty("webdriver.chrome.driver",
                     "src/test/resources/WebDrivers/chromedriver.exe");
@@ -44,7 +43,7 @@ public class WDriver {
      *
      * @return
      */
-    public static WDriver getInstance() {
+    public static WDriver getInstance(String browser) {
         if (driver == null) {
             driver = new WDriver(browser);
         }
@@ -63,7 +62,7 @@ public class WDriver {
      * @param xpath xpath
      * @return элемент
      */
-    public WebElement findElement(String xpath) {
+    public static WebElement findElement(String xpath) {
         WebElement e;
         try {
             //проверяем, присутствует ли элемент в HTML документе
@@ -86,7 +85,7 @@ public class WDriver {
      *
      * @param xpath xpath
      */
-    public void click(String xpath) {
+    public static void click(String xpath) {
         WebElement e = findElement(xpath);
         e.click();
         log.debug("Кликнул элемент.");
@@ -98,7 +97,7 @@ public class WDriver {
      * @param xpath     xpath
      * @param textValue текст для ввода
      */
-    public void sendKeys(String xpath, String textValue) {
+    public static void sendKeys(String xpath, String textValue) {
         WebElement e = findElement(xpath);
         e.sendKeys(textValue);
         log.debug("Ввел значение '{}' в поле '{}'.", textValue, xpath);
@@ -110,7 +109,7 @@ public class WDriver {
      * @param url адресс
      */
 
-    public void get(String url) {
+    public static void get(String url) {
         webDriver.get(url);
         log.debug("Открываем страницу '{}'.", url);
     }
@@ -119,7 +118,7 @@ public class WDriver {
      * Метод для закрытия текущей вкладки
      */
 
-    public void close() {
+    public static void close() {
         webDriver.close();
         log.debug("Закрыл вкладку.");
     }

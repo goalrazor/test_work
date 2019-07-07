@@ -16,12 +16,12 @@ public class Runner {
     public void setUpClass() {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
     }
-
+    private static final ThreadLocal<WDriver> driver = new ThreadLocal<>();
     @BeforeTest
     @Parameters("browser")
     public void setBrowser(String browser) {
-        ThreadLocal<WDriver> driver = new ThreadLocal<>();
-        driver.set(new WDriver(browser));
+
+        driver.set(WDriver.getInstance(browser));
     }
 
 
