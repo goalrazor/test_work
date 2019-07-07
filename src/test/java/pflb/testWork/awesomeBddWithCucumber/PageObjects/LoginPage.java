@@ -1,5 +1,7 @@
 package pflb.testWork.awesomeBddWithCucumber.PageObjects;
 
+import pflb.testWork.awesomeBddWithCucumber.Runner.WDriver;
+
 public class LoginPage extends BasePage {
     private String passwordFieldXpath = "//input[@type=\"password\"]";
     private String loginFieldXpath = "//input[@type=\"email\"]";
@@ -12,15 +14,15 @@ public class LoginPage extends BasePage {
     }
 
     public void login(String login, String password) {
-        driver.sendKeys(loginFieldXpath, login + "\n");
+        WDriver.sendKeys(loginFieldXpath, login + "\n");
         log.info("Логин '{}' удачно введен", login);
 
-        driver.sendKeys(passwordFieldXpath, password + "\n");
+        WDriver.sendKeys(passwordFieldXpath, password + "\n");
         log.info("Пароль '{}' удачно введен", password);
     }
 
     public void logOutChecking(){
-        driver.findElement(passwordFieldXpath);
+        WDriver.findElement(passwordFieldXpath);
         log.info("Выход из аккаунта совершен");
     }
 }

@@ -21,7 +21,7 @@ public class Runner {
     @Parameters("browser")
     public void setBrowser(String browser) {
         ThreadLocal<WDriver> driver = new ThreadLocal<>();
-        driver.set(new WDriver(browser));
+        driver.set(WDriver.getInstance(browser));
     }
 
 
