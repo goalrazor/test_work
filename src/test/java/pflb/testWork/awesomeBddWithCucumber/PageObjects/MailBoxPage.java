@@ -1,6 +1,7 @@
-package PageObjects;
+package pflb.testWork.awesomeBddWithCucumber.PageObjects;
 
-import stepdefs.WDriver;
+import pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper;
+import pflb.testWork.awesomeBddWithCucumber.Runner.WDriver;
 
 public class MailBoxPage extends BasePage {
 
@@ -9,13 +10,16 @@ public class MailBoxPage extends BasePage {
     private String newMessageThemeXpath = "//input[@name=\"subjectbox\"]";
     private String newMessageBodyXpath = "//div[@role=\"textbox\"]";
     private String draftExistsXpath = "//span[contains(text(), \"%s\")]";
+    private String draftsButtonXpath = "//div[@data-tooltip=\"Черновики\"]";
+    private String filledAddressXpath = "//span[@email='%s'][text()='%s']";
+    private String filledThemeXpath = "//div[@aria-label=\"%s\"]";
+    private String filledBodyXpath = "//div[text()=\"%s\"]";
+    private String sendMessageButtonXpath = "//div[text()=\"Отправить\"]";
+    private String noDraftsFieldXpath = "//td[text()=\"Нет сохраненных черновиков.\"]";
+    private String sentMessagesButtonXpath = "//div[@data-tooltip=\"Отправленные\"]";
+    private String accountButtonXpath = "//a[contains(@aria-label, \"(goalrazor@gmail.com)\")]";
+    private String logoutButtonXpath = "//a[text()=\"Выйти\"]";
 
-    public String inboxUrl() {
-        driver.findElement(newMessageButtonXpath);
-        String inboxUrl = driver.getUrl();
-        log.info("Текущий URL '{}'", inboxUrl);
-        return inboxUrl;
-    }
 
     public void newMessageClick() {
         driver.click(newMessageButtonXpath);
@@ -32,60 +36,56 @@ public class MailBoxPage extends BasePage {
     public void fillNewMessageFields(String address, String theme, String body) {
         driver.sendKeys(newMessageAddressXpath, address);
         log.info("Поле 'Кому' заполнено: '{}'", address);
+
         driver.sendKeys(newMessageThemeXpath, theme);
         log.info("Поле 'Тема' заполнено: '{}'", theme);
+
         driver.sendKeys(newMessageBodyXpath, body);
         log.info("Поле 'Тело письма' заполнено: '{}'", body);
     }
 
     public void draftsChecking() {
-        String draftsButtonXpath = "//div[@data-tooltip=\"Черновики\"]";
         driver.click(draftsButtonXpath);
-        driver.findElement(String.format(draftExistsXpath, WDriver.getProperty("body")));
+        driver.findElement(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Черновик сохранился в раздел черновики");
     }
 
     public void draftOpen() {
-        driver.click(String.format(draftExistsXpath, WDriver.getProperty("body")));
+        driver.click(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Удачный клик по черновику");
     }
 
-    public void draftMessageRequisitesChecking(){
-        String filledAddressXpath = "//span[@email='%s'][text()='%s']";
-        driver.findElement(String.format(filledAddressXpath, WDriver.getProperty("address"), WDriver.getProperty("address")));
+    public void draftMessageRequisitesChecking() {
+        driver.findElement(String.format(filledAddressXpath, GetPropertiesHelper.getProperty("address"), GetPropertiesHelper.getProperty("address")));
         log.info("В поле 'Кому' присутствуют нужные данные");
-        String filledThemeXpath = "//div[@aria-label=\"%s\"]";
-        driver.findElement(String.format(filledThemeXpath, WDriver.getProperty("theme")));
+
+        driver.findElement(String.format(filledThemeXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В поле 'Тема' присутствуют нужные данные");
-        String filledBodyXpath = "//div[text()=\"%s\"]";
-        driver.findElement(String.format(filledBodyXpath, WDriver.getProperty("body")));
+
+        driver.findElement(String.format(filledBodyXpath, GetPropertiesHelper.getProperty("body")));
         log.info("В поле 'Тело письма' присутствуют нужные данные");
     }
 
-    public void sendMessageClick(){
-        String sendMessageButtonXpath = "//div[text()=\"Отправить\"]";
+    public void sendMessageClick() {
         driver.click(sendMessageButtonXpath);
         log.info("Письмо отправлено");
     }
 
-    public void noDraftsChecking(){
-        String noDraftsFieldXpath = "//td[text()=\"Нет сохраненных черновиков.\"]";
+    public void noDraftsChecking() {
         driver.findElement(noDraftsFieldXpath);
         log.info("Страница черновиков пуста");
     }
 
-    public void sentMessageChecking(){
-        String sentMessagesButtonXpath = "//div[@data-tooltip=\"Отправленные\"]";
+    public void sentMessageChecking() {
         driver.click(sentMessagesButtonXpath);
-        driver.findElement(String.format("//span"+draftExistsXpath, WDriver.getProperty("theme")));
+        driver.findElement(String.format("//span" + draftExistsXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В разделе отправленные присутствует отправленное нами письмо");
     }
 
-    public void exit(){
-        String accountButtonXpath = "//a[contains(@aria-label, \"(goalrazor@gmail.com)\")]";
+    public void exit() {
         driver.click(accountButtonXpath);
         log.info("Удачный клик по кнопке аккаунта");
-        String logoutButtonXpath = "//a[text()=\"Выйти\"]";
+
         driver.click(logoutButtonXpath);
         log.info("Удачный клик по кнопке 'Выйти'");
     }

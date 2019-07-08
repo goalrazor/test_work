@@ -1,14 +1,14 @@
-package stepdefs;
+package pflb.testWork.awesomeBddWithCucumber.stepdefs;
 
 
-import PageObjects.LoginPage;
-import PageObjects.MailBoxPage;
 import cucumber.api.java.ru.*;
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper;
+import pflb.testWork.awesomeBddWithCucumber.PageObjects.LoginPage;
+import pflb.testWork.awesomeBddWithCucumber.PageObjects.MailBoxPage;
 import utils.Listener;
 
-import static stepdefs.WDriver.getAccountPair;
+import static pflb.testWork.awesomeBddWithCucumber.Helper.GetPropertiesHelper.getAccountPair;
 
 
 @Listeners(Listener.class)
@@ -35,7 +35,7 @@ public class StepDefinitions {
     @Тогда("^открыта старница почтового ящика$")
     public void openMailBox() {
         mailBoxPage = new MailBoxPage();
-        Assert.assertEquals(mailBoxPage.inboxUrl(), "https://mail.google.com/mail/u/0/#inbox", "Страница почтового ящика не открылась");
+        //Assert.assertEquals(mailBoxPage.inboxUrl(), "https://mail.google.com/mail/u/0/#inbox", "Страница почтового ящика не открылась");
 
     }
 
@@ -52,9 +52,9 @@ public class StepDefinitions {
 
     @Если("^пользователь вводит в поле кому адрес 'адресс' в поле тема 'тема', а в тело письма 'текст тела'$")
     public void fillNewMessageFields() {
-        String address = WDriver.getProperty("address");
-        String theme = WDriver.getProperty("theme");
-        String body = WDriver.getProperty("body");
+        String address = GetPropertiesHelper.getProperty("address");
+        String theme = GetPropertiesHelper.getProperty("theme");
+        String body = GetPropertiesHelper.getProperty("body");
         mailBoxPage.fillNewMessageFields(address, theme, body);
     }
 
