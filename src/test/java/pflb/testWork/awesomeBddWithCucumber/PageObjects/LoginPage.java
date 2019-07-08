@@ -14,15 +14,15 @@ public class LoginPage extends BasePage {
     }
 
     public void login(String login, String password) {
-        WDriver.sendKeys(loginFieldXpath, login + "\n");
+        driver.sendKeys(loginFieldXpath, login + "\n");
         log.info("Логин '{}' удачно введен", login);
 
-        WDriver.sendKeys(passwordFieldXpath, password + "\n");
+        driver.sendKeys(passwordFieldXpath, password + "\n");
         log.info("Пароль '{}' удачно введен", password);
     }
 
     public void logOutChecking(){
-        WDriver.findElement(passwordFieldXpath);
+        driver.findElement(passwordFieldXpath);
         log.info("Выход из аккаунта совершен");
     }
 }

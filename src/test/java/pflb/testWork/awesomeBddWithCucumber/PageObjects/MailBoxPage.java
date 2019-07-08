@@ -22,71 +22,71 @@ public class MailBoxPage extends BasePage {
 
 
     public void newMessageClick() {
-        WDriver.click(newMessageButtonXpath);
+        driver.click(newMessageButtonXpath);
         log.info("Удачно кликнул по элементу 'Написать письмо'");
     }
 
     public void newMessageFieldsAssertion() {
-        WDriver.findElement(newMessageAddressXpath);
-        WDriver.findElement(newMessageThemeXpath);
-        WDriver.findElement(newMessageBodyXpath);
+        driver.findElement(newMessageAddressXpath);
+        driver.findElement(newMessageThemeXpath);
+        driver.findElement(newMessageBodyXpath);
         log.info("Все поля удачно отобразились 'Написать письмо'");
     }
 
     public void fillNewMessageFields(String address, String theme, String body) {
-        WDriver.sendKeys(newMessageAddressXpath, address);
+        driver.sendKeys(newMessageAddressXpath, address);
         log.info("Поле 'Кому' заполнено: '{}'", address);
 
-        WDriver.sendKeys(newMessageThemeXpath, theme);
+        driver.sendKeys(newMessageThemeXpath, theme);
         log.info("Поле 'Тема' заполнено: '{}'", theme);
 
-        WDriver.sendKeys(newMessageBodyXpath, body);
+        driver.sendKeys(newMessageBodyXpath, body);
         log.info("Поле 'Тело письма' заполнено: '{}'", body);
     }
 
     public void draftsChecking() {
-        WDriver.click(draftsButtonXpath);
-        WDriver.findElement(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
+        driver.click(draftsButtonXpath);
+        driver.findElement(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Черновик сохранился в раздел черновики");
     }
 
     public void draftOpen() {
-        WDriver.click(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
+        driver.click(String.format(draftExistsXpath, GetPropertiesHelper.getProperty("body")));
         log.info("Удачный клик по черновику");
     }
 
     public void draftMessageRequisitesChecking() {
-        WDriver.findElement(String.format(filledAddressXpath, GetPropertiesHelper.getProperty("address"), GetPropertiesHelper.getProperty("address")));
+        driver.findElement(String.format(filledAddressXpath, GetPropertiesHelper.getProperty("address"), GetPropertiesHelper.getProperty("address")));
         log.info("В поле 'Кому' присутствуют нужные данные");
 
-        WDriver.findElement(String.format(filledThemeXpath, GetPropertiesHelper.getProperty("theme")));
+        driver.findElement(String.format(filledThemeXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В поле 'Тема' присутствуют нужные данные");
 
-        WDriver.findElement(String.format(filledBodyXpath, GetPropertiesHelper.getProperty("body")));
+        driver.findElement(String.format(filledBodyXpath, GetPropertiesHelper.getProperty("body")));
         log.info("В поле 'Тело письма' присутствуют нужные данные");
     }
 
     public void sendMessageClick() {
-        WDriver.click(sendMessageButtonXpath);
+        driver.click(sendMessageButtonXpath);
         log.info("Письмо отправлено");
     }
 
     public void noDraftsChecking() {
-        WDriver.findElement(noDraftsFieldXpath);
+        driver.findElement(noDraftsFieldXpath);
         log.info("Страница черновиков пуста");
     }
 
     public void sentMessageChecking() {
-        WDriver.click(sentMessagesButtonXpath);
-        WDriver.findElement(String.format("//span" + draftExistsXpath, GetPropertiesHelper.getProperty("theme")));
+        driver.click(sentMessagesButtonXpath);
+        driver.findElement(String.format("//span" + draftExistsXpath, GetPropertiesHelper.getProperty("theme")));
         log.info("В разделе отправленные присутствует отправленное нами письмо");
     }
 
     public void exit() {
-        WDriver.click(accountButtonXpath);
+        driver.click(accountButtonXpath);
         log.info("Удачный клик по кнопке аккаунта");
 
-        WDriver.click(logoutButtonXpath);
+        driver.click(logoutButtonXpath);
         log.info("Удачный клик по кнопке 'Выйти'");
     }
 
